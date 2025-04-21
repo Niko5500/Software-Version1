@@ -30,5 +30,10 @@ int Enemy::getXp()
 	return xp;
 }
 
+void Enemy::setHp(int newHp)
+{
+	hp = newHp;
+}
+
 Enemy::~Enemy(){};
 
