@@ -36,6 +36,17 @@ int Hero::getXp()
 	return xp;
 }
 
+void Hero::takeDamage(int damage)
+{
+	hp -= damage;
+}
+
+void Hero::setHp(int newHp)
+{
+	hp = newHp;
+}
+
+
 Hero::~Hero(){};
 
 
