@@ -16,6 +16,7 @@ class Enemy {
                 int getHp();
                 int getPower();
 		int getXp();
+		void setHp(int newHp);
 
                 ~Enemy();
 };
