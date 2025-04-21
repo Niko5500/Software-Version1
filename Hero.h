@@ -18,8 +18,10 @@ class Hero {
 		int getLevel();
 		int getHp();
 		int getPower();
-
+		void takeDamage(int damage);
+		void setHp(int newHp);	
 		~Hero();
+
 };
 
 #endif
