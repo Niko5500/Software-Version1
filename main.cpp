@@ -22,6 +22,7 @@ int main(){
    bool heroLever = true;
    while (heroLever)
    {
+
     game.gameMenu(fight);
 
     // Vis stats før kamp
@@ -50,7 +51,13 @@ int main(){
     else if (fight.getEnemy().getHp() <= 0)
     {
 	cout << fight.getEnemy().getName() << " deafeated!"<< endl;
-        cout << "You won!" << endl;	
+        cout << "You won!" << endl;
+
+	fight.getHero().setHp(fight.getHero().getMaxHp());
+
+
+	fight.setHeroXp();
+	fight.setHeroLevel();	
 	heroLever = true;
     }
    }

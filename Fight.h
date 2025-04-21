@@ -17,6 +17,8 @@ class Fight {
 		Hero& getHeroFight();
  		Hero& getHero();
 		void printHero();
+		Hero& setHeroXp();
+		Hero& setHeroLevel();
 		Enemy& getEnemyFight();
 		Enemy& getEnemy();
 		void printEnemy();

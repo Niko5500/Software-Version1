@@ -48,22 +48,27 @@ void Game::loadHero(string t)
 void Game::saveHero(string t) {
     if (t.find(".txt") == string::npos)
     {
-	    t += ".txt";
+        t += ".txt";
     }
-		
+
     ofstream file(t);
 
-    if (file.is_open())
+    if (!file)
     {
-        file << hero.getName() << " " << hero.getHp() << " " << hero.getPower() << " " << hero.getLevel() << " " << hero.getXp(); // Gem Hero data til fil
-        cout << "Hero saved successfully!" << endl;
+        cout << "Kunne ikke åbne filen til skrivning!" << endl;
+        return;
     }
-    else
-    {
-        cout << "Failed to save hero!" << endl;
-    }
-    exit(0);
+
+    file << hero.getName() << " "
+         << hero.getHp() << " "
+         << hero.getMaxHp() << " "
+         << hero.getPower() << " "
+         << hero.getLevel() << " "
+         << hero.getXp();
+
+    cout << "Hero saved successfully!" << endl;
 }
+
 
 void Game::displayHero()
 {
@@ -118,7 +123,6 @@ void Game::gameMenu(Fight& fight)
 	if (input == 0)
 	{
 		Enemy& chooseEnemy = fight.chooseEnemy();
-
 	}
 
 	else if (input == 4)
