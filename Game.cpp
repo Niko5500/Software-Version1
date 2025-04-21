@@ -62,6 +62,7 @@ void Game::saveHero(string t) {
     {
         cout << "Failed to save hero!" << endl;
     }
+    exit(0);
 }
 
 void Game::displayHero()
@@ -94,6 +95,47 @@ void Game::valgHero(int n)
     }
 }
 
+Hero& Game::getHero()
+{
+	return hero;
+}
+
+
+void Game::setHp(Hero& h)
+{
+   hero.setHp(h.getHp());
+}
+
+
+void Game::gameMenu(Fight& fight)
+{
+	cout << "Your options are (0) Fight Monsters (4) save and exit:";
+	
+	int input;
+	cin >> input;
+	cout << "Your choice: " << input << endl;
+
+	if (input == 0)
+	{
+		Enemy& chooseEnemy = fight.chooseEnemy();
+
+	}
+
+	else if (input == 4)
+	{
+		string fileName;
+		cout << "Indtask et filnavn til at gemme dit spil: ";
+		cin >> fileName;
+
+		saveHero(fileName);		
+	}
+
+	else
+	{
+		cout << "Ugyldigt valg";
+		gameMenu(fight);
+	}
+}
 
 Game::~Game(){}
 
