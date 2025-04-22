@@ -61,7 +61,6 @@ void Game::saveHero(string t) {
 
     file << hero.getName() << " "
          << hero.getHp() << " "
-         << hero.getMaxHp() << " "
          << hero.getPower() << " "
          << hero.getLevel() << " "
          << hero.getXp();
@@ -93,9 +92,9 @@ void Game::valgHero(int n)
     }
     else
     {
-	string filnavn;
-	cout << "Indtast filnavn på helten du vil loade: ";
-	cin >> filnavn;
+        string filnavn;
+        cout << "Indtast filnavn på helten du vil loade: ";
+        cin >> filnavn;
         loadHero(filnavn);
     }
 }
@@ -131,7 +130,8 @@ void Game::gameMenu(Fight& fight)
 		cout << "Indtask et filnavn til at gemme dit spil: ";
 		cin >> fileName;
 
-		saveHero(fileName);		
+		saveHero(fileName);
+		exit(0);		
 	}
 
 	else

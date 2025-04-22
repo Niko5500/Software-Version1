@@ -14,7 +14,6 @@ int main(){
     cin >> valg;
     cin.ignore();
     game.valgHero(valg);
-    game.displayHero();
 
     Enemy dummyEnemy("Dummy",1,1,1);
     Fight fight(game.getHero(), dummyEnemy);
