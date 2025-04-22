@@ -5,6 +5,17 @@ using namespace std;
 
 Game::Game(){}
 
+Hero& Game::getHero()
+{
+        return hero;
+}
+
+
+void Game::setHp(Hero& h)
+{
+   hero.setHp(h.getHp());
+}
+
 void Game::newHero()
 {
     string name;
@@ -16,7 +27,7 @@ void Game::newHero()
     cout << "Enter the name of your Hero: ";
     cin >> name;
 
-    hero = Hero(name, hp, power, level, xp); // Opretter en ny Hero
+    hero = Hero(name, hp, power, level, xp);
 }
 
 void Game::loadHero(string t)
@@ -27,16 +38,16 @@ void Game::loadHero(string t)
     }
 
 	
-    ifstream file(t); // Fil til at gemme Hero data
+    ifstream file(t); // Åbne fil med Hero
 
     if (file.is_open())
     {
         string name;
         int hp, power, level, xp;
 
-        file >> name >> hp >> power >> level >> xp; // Læs Hero data fra fil
+        file >> name >> hp >> power >> level >> xp;
 
-        hero = Hero(name, hp, power, level, xp); // Opretter Hero ud fra filen
+        hero = Hero(name, hp, power, level, xp);
         displayHero();
     }
     else
@@ -45,7 +56,8 @@ void Game::loadHero(string t)
     }
 }
 
-void Game::saveHero(string t) {
+void Game::saveHero(string t)
+{
     if (t.find(".txt") == string::npos)
     {
         t += ".txt";
@@ -98,18 +110,6 @@ void Game::valgHero(int n)
         loadHero(filnavn);
     }
 }
-
-Hero& Game::getHero()
-{
-	return hero;
-}
-
-
-void Game::setHp(Hero& h)
-{
-   hero.setHp(h.getHp());
-}
-
 
 void Game::gameMenu(Fight& fight)
 {

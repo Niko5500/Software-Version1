@@ -14,7 +14,9 @@ class Hero {
 	public:
 		Hero();
 		Hero(string, int, int, int, int);
+		
 		string getName();
+
 		int getXp();
 		void setXp(int newXp);
 

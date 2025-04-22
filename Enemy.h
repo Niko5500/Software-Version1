@@ -1,5 +1,5 @@
-#ifndef Enemy_H
-#define Enemy_H
+#ifndef ENEMY_H
+#define ENEMY_H
 #include <string>
 using namespace std;
 
@@ -14,9 +14,9 @@ class Enemy {
                 Enemy(string, int, int, int);
                 string getName();
                 int getHp();
+	        void setHp(int newHp);
                 int getPower();
 		int getXp();
-		void setHp(int newHp);
 
                 ~Enemy();
 };
