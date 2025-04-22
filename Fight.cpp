@@ -3,7 +3,8 @@
 
 using namespace std;
 
-Fight::Fight(Hero& h, Enemy& e) : hero(h), enemy(e) {
+Fight::Fight(Hero& h, Enemy& e) : hero(h), enemy(e)
+{
     enemies = {
         Enemy("Horse", 4, 1, 100),
         Enemy("Weak Goblin", 4, 2, 200),
@@ -39,10 +40,9 @@ void Fight::printHero()
     cout << "" << endl;
 }
 
-// Denne funktion opdaterer Hero's XP
 Hero& Fight::setHeroXp()
 {
-    int xpGained = enemy.getXp();  // XP fra fjenden
+    int xpGained = enemy.getXp();
     hero.setXp(hero.getXp() + xpGained);
 
     cout << "New Hero XP: " << hero.getXp() << endl;
@@ -50,15 +50,16 @@ Hero& Fight::setHeroXp()
     return hero;
 }
 
-// Denne funktion opdaterer Hero's level
 Hero& Fight::setHeroLevel()
 {
-    if (hero.getXp() >= 1000) {
-        hero.setLevel(hero.getLevel() + 1); // Øg level, hvis XP
+    if (hero.getXp() >= 1000)
+    {
+        hero.setLevel(hero.getLevel() + 1);
 	hero.setHp(hero.getHp()+2);
 	hero.setMaxHp(hero.getMaxHp()+2);
 	hero.setPower(hero.getPower()+1);	
-        hero.setXp(hero.getXp() - 1000); // Fjern XP, der er brugt på level-up
+        hero.setXp(hero.getXp() - 1000);
+
         cout << "New level: " << hero.getLevel() << endl;
     }
     return hero;
@@ -88,7 +89,8 @@ void Fight::printEnemy()
 
 Enemy& Fight::chooseEnemy()
 {	
-    for (int i = 0; i < enemies.size(); i++) {
+    for (int i = 0; i < enemies.size(); i++)
+    {
         cout << i << " : " << enemies[i].getName() << endl;
     }
 
@@ -96,9 +98,9 @@ Enemy& Fight::chooseEnemy()
     int choice;
     cout << "Vælg en fjende med indeks fra 0-7: ";
     cin >> choice;
-
-    
-    while (choice < 0 || choice >= enemies.size()) {
+ 
+    while (choice < 0 and choice >= enemies.size())
+    {
         cout << "Ugyldigt valg, prøv igen (0-7): ";
         cin >> choice;
     }

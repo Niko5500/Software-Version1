@@ -17,17 +17,16 @@ class Game {
         Hero hero;
     public:
 	Game();
+	Hero& getHero();
+	void setHp(Hero& h);
         void newHero(); 
         void loadHero(string); 
         void saveHero(string);
       	void displayHero();
 	void valgHero(int);
-	Hero& getHero();
-	void setHp(Hero& h);
 	void gameMenu(Fight& fight);
 
 	~Game();	
 };
 
 #endif
-

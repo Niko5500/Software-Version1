@@ -7,59 +7,60 @@ using namespace std;
 
 int main(){
 
-    Game game;
+   Game game;
+   Enemy dummyEnemy("Dummy",1,1,1);
+   Fight fight(game.getHero(), dummyEnemy);
 
-    int valg;
-    cout << "(0) new Game (1) Load Game: " << endl;
-    cin >> valg;
-    cin.ignore();
-    game.valgHero(valg);
 
-    Enemy dummyEnemy("Dummy",1,1,1);
-    Fight fight(game.getHero(), dummyEnemy);
+   int valg;
+   cout << "(0) new Game (1) Load Game: " << endl;
+   cin >> valg;    cin.ignore();
+   game.valgHero(valg);
 
    bool heroLever = true;
    while (heroLever)
    {
-
     game.gameMenu(fight);
 
-    // Vis stats før kamp
     fight.printHero();
     fight.printEnemy();
     cin.ignore();
-    // Kampsløjfe
-    while (fight.getHero().getHp() > 0 && fight.getEnemy().getHp() > 0)
-    {
-        cout << "\nTryk enter for at fighte";
-        cin.get(); // ← her venter vi på brugeren
 
-        fight.getHeroFight();  // Enemy angriber Hero
-        fight.getEnemyFight(); // Hero angriber Enemy
+    // Kamp
+    	while (fight.getHero().getHp() > 0 && fight.getEnemy().getHp() > 0)
+   	 {
+        	cout <<  "\nTryk enter for at fighte";
+        	cin.get();
 
-        fight.printHero();
-        fight.printEnemy();
-    }
+        	fight.getHeroFight(); 
+       		fight.getEnemyFight();
+
+       		fight.printHero();
+        	fight.printEnemy();
+    	}
 
     // Resultat
-    if (fight.getHero().getHp() <= 0)
-    {
-        cout << "You lost" << endl;
-	heroLever = false;
-    }
-    else if (fight.getEnemy().getHp() <= 0)
-    {
-	cout << fight.getEnemy().getName() << " deafeated!"<< endl;
-        cout << "You won!" << endl;
+   	if (fight.getHero().getHp() <= 0)
+   	 {
+   	        cout << "You lost" << endl;
+		
+		heroLever = false;
+    	 }
 
-	fight.getHero().setHp(fight.getHero().getMaxHp());
+    	else if (fight.getEnemy().getHp() <= 0)
+   	 {
+		cout << fight.getEnemy().getName() << " deafeated!"<< endl;
+        	cout << "You won!" << endl;
 
+		fight.getHero().setHp(fight.getHero().getMaxHp());
+		fight.setHeroXp();
+		fight.setHeroLevel();	
+		
+		heroLever = true;
+    	 }
 
-	fight.setHeroXp();
-	fight.setHeroLevel();	
-	heroLever = true;
-    }
    }
-    return 0;
+   
+   return 0;
 }
 
