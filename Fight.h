@@ -15,13 +15,13 @@ class Fight {
 	public:
 	        Fight(Hero& h, Enemy& e);
 
-		Hero& getHeroFight();
+		Hero& updateHeroFight();
  		Hero& getHero();
 		void printHero();
 		Hero& setHeroXp();
-		Hero& setHeroLevel();
+		Hero& updateHero();
 
-		Enemy& getEnemyFight();
+		Enemy& updateEnemyFight();
 		Enemy& getEnemy();
 		void printEnemy();
 		Enemy& chooseEnemy();
