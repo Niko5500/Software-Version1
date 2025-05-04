@@ -32,8 +32,8 @@ int main(){
         	cout <<  "\nTryk enter for at fighte";
         	cin.get();
 
-        	fight.getHeroFight(); 
-       		fight.getEnemyFight();
+        	fight.updateHeroFight(); 
+       		fight.updateEnemyFight();
 
        		fight.printHero();
         	fight.printEnemy();
@@ -54,7 +54,7 @@ int main(){
 
 		fight.getHero().setHp(fight.getHero().getMaxHp());
 		fight.setHeroXp();
-		fight.setHeroLevel();	
+		fight.updateHero();	
 		
 		heroLever = true;
     	 }

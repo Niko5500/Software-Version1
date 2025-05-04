@@ -17,7 +17,7 @@ Fight::Fight(Hero& h, Enemy& e) : hero(h), enemy(e)
     };
 }
 
-Hero& Fight::getHeroFight()
+Hero& Fight::updateHeroFight()
 {
     hero.setHp(hero.getHp() - enemy.getPower());
 
@@ -50,7 +50,7 @@ Hero& Fight::setHeroXp()
     return hero;
 }
 
-Hero& Fight::setHeroLevel()
+Hero& Fight::updateHero()
 {
     if (hero.getXp() >= 1000)
     {
@@ -65,7 +65,7 @@ Hero& Fight::setHeroLevel()
     return hero;
 }
 
-Enemy& Fight::getEnemyFight()
+Enemy& Fight::updateEnemyFight()
 {
     enemy.setHp(enemy.getHp() - hero.getPower());
 
