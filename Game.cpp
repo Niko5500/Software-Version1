@@ -141,6 +141,54 @@ void Game::gameMenu(Fight& fight)
 	}
 }
 
+void Game::start() {
+    Enemy dummyEnemy("Dummy", 1, 1, 1);
+    Fight fight(hero, dummyEnemy);
+
+    int valg;
+    cout << "(0) new Game (1) Load Game: " << endl;
+    cin >> valg;    
+    cin.ignore();
+    valgHero(valg);
+
+    bool heroLever = true;
+    while (heroLever) {
+        gameMenu(fight);
+
+        fight.printHero();
+        fight.printEnemy();
+        cin.ignore();
+
+        // Kamp
+        while (fight.getHero().getHp() > 0 && fight.getEnemy().getHp() > 0) {
+            cout << "\nTryk enter for at fighte";
+            cin.get();
+
+            fight.updateHeroFight(); 
+            fight.updateEnemyFight();
+
+            fight.printHero();
+            fight.printEnemy();
+        }
+
+        // Resultat
+        if (fight.getHero().getHp() <= 0) {
+            cout << "You lost" << endl;
+            heroLever = false;
+        } else if (fight.getEnemy().getHp() <= 0) {
+            cout << fight.getEnemy().getName() << " defeated!" << endl;
+            cout << "You won!" << endl;
+
+            fight.getHero().setHp(fight.getHero().getMaxHp());
+            fight.setHeroXp();
+            fight.updateHero();    
+
+            heroLever = true;
+        }
+    }
+}
+
+
 Game::~Game(){}
 
 
