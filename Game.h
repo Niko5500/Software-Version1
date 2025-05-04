@@ -25,6 +25,7 @@ class Game {
       	void displayHero();
 	void valgHero(int);
 	void gameMenu(Fight& fight);
+	void start();
 
 	~Game();	
 };
