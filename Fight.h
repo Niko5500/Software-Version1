@@ -5,26 +5,33 @@
 #include "Enemy.h"
 #include "iostream"
 #include "vector"
+#include "Grotte.h"
 
 class Fight {
 	protected:
 	       Hero& hero;
 	       Enemy& enemy;
+		   Grotte& grotte;
 	       vector <Enemy> enemies;
 
 	public:
-	        Fight(Hero& h, Enemy& e);
+	        Fight(Hero& h, Enemy& e, Grotte& g);
 
 		Hero& updateHeroFight();
  		Hero& getHero();
 		void printHero();
 		Hero& setHeroXp();
+		Hero& setHeroGold();
 		Hero& updateHero();
+		void setGrotte(const Grotte& newGrotte);
+		Grotte& getGrotte();
+		void setEnemy(const Enemy& newEnemy);
 
 		Enemy& updateEnemyFight();
 		Enemy& getEnemy();
 		void printEnemy();
 		Enemy& chooseEnemy();
+		bool runFight();
 				
 		~Fight();
 };
