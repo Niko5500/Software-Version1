@@ -10,4 +10,3 @@ int main()
 	game.start();
 	return 0;
 }
-
