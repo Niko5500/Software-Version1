@@ -11,9 +11,10 @@ class Hero {
 		int power;
 		int level;
 		int xp;
+		int gold;
 	public:
 		Hero();
-		Hero(string, int, int, int, int);
+		Hero(string, int, int, int, int, int);
 		
 		string getName();
 
@@ -25,11 +26,15 @@ class Hero {
 
 		int getHp();
 		void setHp(int newHp);
+
 		int getMaxHp();
 		void setMaxHp(int newMaxHp);
 				
 		int getPower();
 		void setPower(int newPower);	
+
+		int getGold();
+		void setGold(int newGold);
 
 		~Hero();
 

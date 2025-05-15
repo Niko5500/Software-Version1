@@ -2,7 +2,7 @@
 
 Hero::Hero(){}
 
-Hero::Hero(string n, int h, int p, int l, int x)
+Hero::Hero(string n, int h, int p, int l, int x, int g)
 {
 name = n;
 hp = h;
@@ -10,6 +10,8 @@ maxHp = h;
 power = p;
 level = l;
 xp = x;
+gold = g;
+
 }
 
 string Hero::getName()
@@ -65,6 +67,16 @@ int Hero::getXp()
 void Hero::setXp(int newXp)
 {
 	xp = newXp;
+}
+
+int Hero::getGold()
+{
+	return gold;
+}
+
+void Hero::setGold(int newGold)
+{
+	gold = newGold;
 }
 
 Hero::~Hero(){};
