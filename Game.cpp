@@ -1,9 +1,12 @@
 #include "Game.h"
-#include <iostream>
-#include <fstream>
+
 using namespace std;
 
-Game::Game(){}
+Game::Game()
+{
+    Grotte* currentGrotte = nullptr;
+    int currentEnemyIndex = -1;
+}
 
 Hero& Game::getHero()
 {
@@ -23,11 +26,12 @@ void Game::newHero()
     int power = 2;
     int level = 1;
     int xp = 0;
+    int gold = 0;
 
     cout << "Enter the name of your Hero: ";
     cin >> name;
 
-    hero = Hero(name, hp, power, level, xp);
+    hero = Hero(name, hp, power, level, xp, gold);
 }
 
 void Game::loadHero(string t)
@@ -43,11 +47,11 @@ void Game::loadHero(string t)
     if (file.is_open())
     {
         string name;
-        int hp, power, level, xp;
+        int hp, power, level, xp, gold;
 
-        file >> name >> hp >> power >> level >> xp;
+        file >> name >> hp >> power >> level >> xp >> gold;
 
-        hero = Hero(name, hp, power, level, xp);
+        hero = Hero(name, hp, power, level, xp, gold);
         displayHero();
     }
     else
@@ -67,7 +71,7 @@ void Game::saveHero(string t)
 
     if (!file)
     {
-        cout << "Kunne ikke åbne filen til skrivning!" << endl;
+        cout << "Could not open file and write to it!" << endl;
         return;
     }
 
@@ -75,7 +79,8 @@ void Game::saveHero(string t)
          << hero.getHp() << " "
          << hero.getPower() << " "
          << hero.getLevel() << " "
-         << hero.getXp();
+         << hero.getXp() << " "
+         << hero.getGold(); 
 
     cout << "Hero saved successfully!" << endl;
 }
@@ -88,13 +93,28 @@ void Game::displayHero()
     cout << "Power: " << hero.getPower() << endl;
     cout << "Level: " << hero.getLevel() << endl;
     cout << "XP: " << hero.getXp() << endl;
+    cout << "Gold: " << hero.getGold() << endl;
+}
+
+// Tjekker filer i niværende mappe er txt filer og udskriver
+void Game::listTxtFiles()
+{
+    cout << "Saved files: " << endl;
+    for (const auto& file : filesystem::directory_iterator("."))
+    {
+        if (file.path().extension() == ".txt" and file.path().filename() != "CMakeCache.txt") 
+        {
+            cout << "- " << file.path().stem() << endl; 
+        }
+    }
+    cout << "" << endl;
 }
 
 void Game::valgHero(int n)
 {
     while (n != 0 && n != 1)
     {
-        cout << "Ugyldigt valg. Indtast 0 for ny helt eller 1 for at loade en helt: ";
+        cout << "Incorret. Type 0 for new hero or 1 to load an existing hero: ";
         cin >> n;
     }
 
@@ -104,144 +124,247 @@ void Game::valgHero(int n)
     }
     else
     {
+        listTxtFiles();
         string filnavn;
-        cout << "Indtast filnavn på helten du vil loade: ";
+        cout << "Type file name for hero: ";
         cin >> filnavn;
+        cout << "-----------------------------------" << endl;
+        cout << "Hero stats: " << endl;
+        cout << "-----------------------------------" << endl;
         loadHero(filnavn);
     }
 }
 
-void Game::gameMenu(Fight& fight)
-{
-	cout << "Your options are (0) Fight Monsters (4) save and exit:";
-	
-	int input;
-	cin >> input;
-	cout << "Your choice: " << input << endl;
+Grotte* Game::chooseGrotte()
+{	
+    GrotteFactory grotteFactory;
+    Grotte* choosenGrotte = nullptr;
+    vector<string> options;
+    
+    // Hero adgang til grotter i forhold til level
+    
+        if (hero.getLevel() >= 0)
+        {
+            options.push_back("Easy");
+        }
+        if (hero.getLevel() >= 5)
+        {
+            options.push_back("Medium");
+        }
+        if (hero.getLevel() >= 10)
+        {
+            options.push_back("Hard");
+        }
+        if (hero.getLevel() >= 15)
+        {
+            options.push_back("Very Hard");
+        }
+        if (hero.getLevel() >= 25)
+        {
+            options.push_back("Extreme");
+        }
 
-	if (input == 0)
-	{
-		Enemy& chooseEnemy = fight.chooseEnemy();
-	}
+        bool validChoice = false;
 
-	else if (input == 4)
-	{
-		string fileName;
-		cout << "Indtask et filnavn til at gemme dit spil: ";
-		cin >> fileName;
+        while (!validChoice)
+        {
+            // Viser grotter 
+            cout << "Grotter: " << endl;
 
-		saveHero(fileName);
-		exit(0);		
-	}
+            for (int i = 0; i < options.size(); i++)
+            {
+                cout << "(" << i<< ") " << options[i] << endl;
+            }
+            cout << "Choose a grotte: ";
+            string valg;
+            cin >> valg;
 
-	else
-	{
-		cout << "Ugyldigt valg";
-		gameMenu(fight);
-	}
+            // Tjek at hele inputtet er tal
+            bool isNumber = true;
+            for (char c : valg) {
+                if (!isdigit(c)) {
+                    isNumber = false;
+                    break;
+                }
+            }
+
+            if (isNumber)
+            {
+                int valgnum = stoi(valg);
+                if (valgnum >= 0 && valgnum < options.size())
+                {
+                    choosenGrotte = grotteFactory.createGrotte(options[valgnum]);
+                    validChoice = true;
+                }
+                else 
+                {
+                    cout << "Ugyldigt tal, prøv igen: " << endl;
+                
+                }
+            }
+            else
+            {
+                cout << "Vælg et tal, prøv igen." << endl;
+            }
+    }
+
+    return choosenGrotte;
 }
 
-void Game::start() {
-    Enemy dummyEnemy("Dummy", 1, 1, 1);
-    Fight fight(hero, dummyEnemy);
+int Game::chooseEnemyIndex(Grotte* choosenGrotte)
+{
+    vector<Enemy*>& enemies = choosenGrotte->getEnemies();
 
-    int valg;
-    cout << "(0) new Game (1) Load Game: " << endl;
-    cin >> valg;    
-    cin.ignore();
-    valgHero(valg);
+    cout << "Enemies in grotten: " << endl;
+    cout << "" << endl;
 
-    bool heroLever = true;
-    while (heroLever) {
-        gameMenu(fight);
+    for (int i = 0; i < enemies.size(); i++) {
+        cout << "Enemy: "<< i << endl;
+        cout << enemies[i]->getName() << endl;
+        cout << "hp: " << enemies[i]->getHp() << endl;
+        cout << "power: " << enemies[i]->getPower() << endl;
+        cout << "xp: " << enemies[i]->getXp() << endl;
+        cout << "" << endl;
+    }
 
-        fight.printHero();
-        fight.printEnemy();
-        cin.ignore();
+    cout << "Choose an enemy to fight: ";
 
-        // Kamp
-        while (fight.getHero().getHp() > 0 && fight.getEnemy().getHp() > 0) {
-            cout << "\nTryk enter for at fighte";
-            cin.get();
+    int valgnum = -1;
+    bool validChoice = false;
 
-            fight.updateHeroFight(); 
-            fight.updateEnemyFight();
+    while (!validChoice)
+    {
+        string valg;
+        cin >> valg;
 
-            fight.printHero();
-            fight.printEnemy();
+        bool isNumber = true;
+        for (char c : valg) {
+            if (!isdigit(c)) {
+                isNumber = false;
+                break;
+            }
         }
 
-        // Resultat
-        if (fight.getHero().getHp() <= 0) {
-            cout << "You lost" << endl;
-            heroLever = false;
-        } else if (fight.getEnemy().getHp() <= 0) {
-            cout << fight.getEnemy().getName() << " defeated!" << endl;
-            cout << "You won!" << endl;
-
-            fight.getHero().setHp(fight.getHero().getMaxHp());
-            fight.setHeroXp();
-            fight.updateHero();    
-
-            heroLever = true;
+        if (isNumber)
+        {
+            valgnum = stoi(valg);
+            if (valgnum >= 0 && valgnum < enemies.size())
+            {
+                validChoice = true;
+            }
+            else 
+            {
+                cout << "Ugyldigt tal, prøv igen." << endl;
+            }
         }
+        else
+        {
+            cout << "Vælg et tal, prøv igen." << endl;
+        }
+    }
+
+    return valgnum;
+}
+
+void Game::deleteCurrentGrotte()
+{
+    if (currentGrotte != nullptr)
+    {
+        delete currentGrotte;
+        currentGrotte = nullptr;
     }
 }
 
+void Game::gameRules()
+{
+    cout << "===================================" << endl;
+    cout << "             Game rules            " << endl;
+    cout << "===================================" << endl;
+    cout << "" << endl;
+    cout << "1. The goal is to defeat the dragon" << endl;
+    cout << " - The dragon is in the Extreme cave" << endl;
+    cout << " - The Extreme cave unlocks at lvl 25" << endl;
+    cout << "2. Defeat enemies in caves to gain xp and gold" << endl;
+    cout << "3. When a cave is defeated u can choose a new one" << endl;
+    cout << "4. You can exit and save game after defeating a cave" << endl;
+    cout << "5. losing a battle will reset hero down to last save" << endl;
+}
+
+
+void Game::start()
+ {
+    srand(time(0)); // bruges til tilfælde tal. det er en timer der starter når programmet startes.
+    Enemy dummyEnemy("Dummy", 1, 1, 1);
+    Grotte dummyGrotte("Dummy", 1, {});
+    Fight fight(hero, dummyEnemy, dummyGrotte);
+
+    int valg;
+    cout << "(0) new Game (1) Load Game: ";
+    cin >> valg;    
+    cin.ignore();
+    cout << "" << endl;
+    valgHero(valg);
+
+    cout << "" << endl;
+    gameRules();
+    cout << "" << endl;
+
+
+    bool heroLever = true;
+    while (heroLever) 
+    {   
+        cout << "Your options are (0) Fight Monsters (4) save and exit: ";
+        int input;
+        cin >> input;
+        cout << "" << endl;
+
+        if (input == 0) // Vælg grotte og besejr ALLE fjender i den
+        {
+            currentGrotte = chooseGrotte();
+            fight.setGrotte(*currentGrotte);
+            cout << "" << endl;
+            // Bekæmp alle fjender i grotten én efter én
+            while (!currentGrotte->isEmpty())
+            {
+                currentEnemyIndex = chooseEnemyIndex(currentGrotte); 
+                Enemy chosenEnemy = *currentGrotte->getEnemies()[currentEnemyIndex];
+                fight.setEnemy(chosenEnemy);
+                cout << "-----------------------------------" << endl;
+                cout << "Stats for Hero and Enemy" << endl;
+
+                fight.printHero();
+                fight.printEnemy();
+                cin.ignore();
+
+                // Kamp
+                fight.runFight();
+
+                // Fjern besejret enemy
+                currentGrotte->removeEnemy(currentEnemyIndex);
+            }
+            cout << "" << endl;
+            cout << "You have cleared Grotten" << endl;
+            fight.setHeroGold();
+            cout << "Hero gained gold: " << currentGrotte->getGold() << endl;
+            deleteCurrentGrotte(); // Grotten er tom, så den slettes
+        }
+        else if (input == 4) // Exit
+        {
+            string fileName;
+            cout << "Indtask et filnavn til at gemme dit spil: ";
+            cin >> fileName;
+
+            saveHero(fileName);
+            deleteCurrentGrotte();
+            exit(0);	
+        }
+        else
+        {
+            cout << "Ugyldigt valg" << endl;
+        }
+    }
+
+    deleteCurrentGrotte(); // Slet grotten, hvis hero dør
+}
 
 Game::~Game(){}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
