@@ -38,11 +38,10 @@ void Game::loadHero(string t)
 {
     if (t.find(".txt") == string::npos)
     {
-            t += ".txt";
+        t += ".txt";
     }
 
-	
-    ifstream file(t); // Åbne fil med Hero
+    ifstream file(t);
 
     if (file.is_open())
     {
@@ -50,8 +49,23 @@ void Game::loadHero(string t)
         int hp, power, level, xp, gold;
 
         file >> name >> hp >> power >> level >> xp >> gold;
-
         hero = Hero(name, hp, power, level, xp, gold);
+
+        // Læs inventory
+        int invSize;
+        file >> invSize;
+
+        for (int i = 0; i < invSize; ++i)
+        {
+            string wName;
+            int wPower, wDurability, wPrice;
+
+            file >> wName >> wPower >> wDurability >> wPrice;
+
+            Weapon* w = new Weapon(wName, wPower, wDurability, wPrice);
+            hero.addWeapon(w);
+        }
+
         displayHero();
     }
     else
@@ -59,6 +73,7 @@ void Game::loadHero(string t)
         cout << "No saved hero found!" << endl;
     }
 }
+
 
 void Game::saveHero(string t)
 {
@@ -80,7 +95,17 @@ void Game::saveHero(string t)
          << hero.getPower() << " "
          << hero.getLevel() << " "
          << hero.getXp() << " "
-         << hero.getGold(); 
+         << hero.getGold() << endl;
+
+         vector<Weapon*> inv = hero.getInventory();
+    file << inv.size() << endl;
+    for (Weapon* w : inv)
+    {
+        file << w->getName() << " ";
+        file << w->getPower() << " ";
+        file << w->getDurability() << " ";
+        file << w->getPrice() << " " << endl;
+    }
 
     cout << "Hero saved successfully!" << endl;
 }
@@ -198,13 +223,13 @@ Grotte* Game::chooseGrotte()
                 }
                 else 
                 {
-                    cout << "Ugyldigt tal, prøv igen: " << endl;
+                    cout << "invalid number, try again: " << endl;
                 
                 }
             }
             else
             {
-                cout << "Vælg et tal, prøv igen." << endl;
+                cout << "choose a number again" << endl;
             }
     }
 
@@ -285,9 +310,10 @@ void Game::gameRules()
     cout << " - The dragon is in the Extreme cave" << endl;
     cout << " - The Extreme cave unlocks at lvl 25" << endl;
     cout << "2. Defeat enemies in caves to gain xp and gold" << endl;
-    cout << "3. When a cave is defeated u can choose a new one" << endl;
-    cout << "4. You can exit and save game after defeating a cave" << endl;
-    cout << "5. losing a battle will reset hero down to last save" << endl;
+    cout << "3. Weapons can be bought in armory or found in caves" << endl;
+    cout << "4. When a cave is defeated u can choose a new one" << endl;
+    cout << "5. You can exit and save game after defeating a cave" << endl;
+    cout << "6. losing a battle will reset hero down to last save" << endl;
 }
 
 
@@ -297,6 +323,7 @@ void Game::start()
     Enemy dummyEnemy("Dummy", 1, 1, 1);
     Grotte dummyGrotte("Dummy", 1, {});
     Fight fight(hero, dummyEnemy, dummyGrotte);
+    Armory armory(hero);
 
     int valg;
     cout << "(0) new Game (1) Load Game: ";
@@ -313,7 +340,7 @@ void Game::start()
     bool heroLever = true;
     while (heroLever) 
     {   
-        cout << "Your options are (0) Fight Monsters (4) save and exit: ";
+        cout << "Your options are: (0) Fight Monsters, (2) Go to Armory, (4) save and exit: ";
         int input;
         cin >> input;
         cout << "" << endl;
@@ -333,6 +360,7 @@ void Game::start()
                 cout << "Stats for Hero and Enemy" << endl;
 
                 fight.printHero();
+                hero.printWeapon();
                 fight.printEnemy();
                 cin.ignore();
 
@@ -348,19 +376,65 @@ void Game::start()
             cout << "Hero gained gold: " << currentGrotte->getGold() << endl;
             deleteCurrentGrotte(); // Grotten er tom, så den slettes
         }
+
+        if (input == 2) // gå til Armory
+        {
+        cout << "<><><><><><><><><><><><><><><><><><><><><>" << endl;
+        cout << "Welcome to the Armory" << endl;
+        cout << "You can buy weapons here" << endl;
+        cout << "" << endl;
+        bool inArmory = true;
+        armory.loadWeapons();
+        armory.displayWeapons();
+            while (inArmory)
+            {
+            cout << "--------------------------------------------" << endl;
+            armory.enterArmory();
+            cout << "" << endl;
+            cout << "Your option are: (0) Buy Weapons, (1) Equip weapon, (2) Unequip weapon, (3) Exit Armory: ";
+            char choose;
+            cin >> choose;
+            if (choose == '0')
+            {
+                armory.buyWeapon();
+                cout << "" << endl;
+            }
+
+            if (choose == '1')
+            {   cout << "" << endl;
+                hero.displayInventory();
+                cout << "" << endl;
+                cout << "Choose a weapon to equip: ";
+                int input;
+                cin >> input;
+                cout << "" << endl;
+                hero.equipWeapon(input);
+            }
+
+            else if (choose == '2')
+            {
+                cout << "Unequiped "; hero.printWeapon();
+                cout << "" << endl;
+                hero.unequipWeapon();
+            }
+
+            else if (choose == '3')
+            {   
+                cout << "Exiting armory" << endl;
+                inArmory = false;
+            }
+        }
+        }
+
         else if (input == 4) // Exit
         {
             string fileName;
-            cout << "Indtask et filnavn til at gemme dit spil: ";
+            cout << "Write a filename to save game: ";
             cin >> fileName;
 
             saveHero(fileName);
             deleteCurrentGrotte();
             exit(0);	
-        }
-        else
-        {
-            cout << "Ugyldigt valg" << endl;
         }
     }
 
