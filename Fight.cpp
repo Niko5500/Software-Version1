@@ -25,7 +25,6 @@ void Fight::printHero()
     cout << "Level: " << hero.getLevel() << endl;
     cout << "XP: " << hero.getXp() << endl;
     cout << "Gold: " << hero.getGold() << endl;
-    cout << "" << endl;
 }
 
 Hero& Fight::setHeroXp()
@@ -59,7 +58,7 @@ Hero& Fight::updateHero()
 
 Enemy& Fight::updateEnemyFight()
 {
-    enemy.setHp(enemy.getHp() - hero.getPower());
+    enemy.setHp(enemy.getHp() - hero.getTotalPower());
     return enemy;
 }
 
@@ -85,6 +84,7 @@ void Fight::setGrotte(const Grotte& newGrotte)
 
 void Fight::printEnemy()
 {
+    cout << "" << endl;
     cout << "Navn: " << enemy.getName() << endl;
     cout << "HP: " << enemy.getHp() << endl;
     cout << "Power: " << enemy.getPower() << endl;
@@ -118,15 +118,19 @@ bool Fight::runFight()
         cout << "-----------------------------------" << endl;
         cout << getEnemy().getName() << " defeated!" << endl;
         cout << "You won!" << endl;
-
+        
         getHero().setHp(getHero().getMaxHp());
         setHeroXp();
-        setHeroGold();
         updateHero();
 
         cout << "-----------------------------------" << endl;
         cout << "Hero Stats:" << endl;
         printHero();
+        getHero().decreaseWeaponDurability();
+        cout << "" << endl;
+        getHero().printWeapon();
+        getHero().destroyWeapon();
+        cout << "" << endl;
         cout << "-----------------------------------" << endl;
 
         return true;

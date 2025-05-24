@@ -12,7 +12,6 @@ class Fight {
 	       Hero& hero;
 	       Enemy& enemy;
 		   Grotte& grotte;
-	       vector <Enemy> enemies;
 
 	public:
 	        Fight(Hero& h, Enemy& e, Grotte& g);
