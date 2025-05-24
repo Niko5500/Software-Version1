@@ -6,6 +6,9 @@
 #include "Fight.h"
 #include "EnemyFactory.h"
 #include "GrotteFactory.h"
+#include "Armory.h"
+#include "Weapon.h"
+#include "WeaponFactory.h"
 
 #include <string>
 #include <iostream>
