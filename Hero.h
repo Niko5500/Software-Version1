@@ -1,6 +1,9 @@
 #ifndef HERO_H
 #define HERO_H
+#include "Weapon.h"
 #include <string>
+#include <vector>
+#include <iostream>
 using namespace std;
 
 class Hero {
@@ -12,6 +15,9 @@ class Hero {
 		int level;
 		int xp;
 		int gold;
+		vector <Weapon*> inventory;
+    	Weapon* equippedWeapon = nullptr;
+
 	public:
 		Hero();
 		Hero(string, int, int, int, int, int);
@@ -35,6 +41,17 @@ class Hero {
 
 		int getGold();
 		void setGold(int newGold);
+
+		vector<Weapon*> getInventory();
+		void addWeapon(Weapon* weapon);
+		void removeWeapon(Weapon* weapon);
+		void displayInventory();
+		void printWeapon();
+		void equipWeapon(int index);
+		void unequipWeapon();
+		void destroyWeapon();
+		void decreaseWeaponDurability();
+		int getTotalPower();
 
 		~Hero();
 
