@@ -15,6 +15,7 @@
 #include <fstream>
 #include <vector>
 #include <filesystem>  // til at arbejde med mapper og filer
+#include <sqlite3.h>
 
 using namespace std;
 
@@ -29,16 +30,18 @@ class Game {
 	Hero& getHero();
 	void setHp(Hero& h);
     void newHero(); 
-    void loadHero(string); 
-    void saveHero(string);
-	void listTxtFiles();
+    void loadHero(sqlite3* db, int heroId); 
+    void saveHero(sqlite3* db, Hero& hero);
+	void listHeroes(sqlite3* db);
     void displayHero();
-	void valgHero(int);
+	void choseHero(int n, sqlite3* db);
+	void updateHero_Kills(sqlite3* db, int heroId, int enemyId, int weaponId);
+	void analyse(sqlite3* db);
 	Grotte* chooseGrotte();
 	int chooseEnemyIndex(Grotte* choosenGrotte);
 	void deleteCurrentGrotte();
 	void gameRules();
-	void start();
+	void start(sqlite3* db);
 
 	~Game();
 };
