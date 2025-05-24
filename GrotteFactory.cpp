@@ -13,7 +13,7 @@
             enemiesEasy.push_back(enemyFactory.createEnemy("WeakGoblin"));
             enemiesEasy.push_back(enemyFactory.createEnemy("WeakGoblin"));
 
-            return new Grotte(name, 100, enemiesEasy);
+            return new Grotte(name, 200, enemiesEasy);
         }
         else if (name == "Medium")
         {
@@ -22,7 +22,7 @@
             enemiesMedium.push_back(enemyFactory.createEnemy("StrongGoblin"));
             enemiesMedium.push_back(enemyFactory.createEnemy("StrongGoblin"));
             enemiesMedium.push_back(enemyFactory.createEnemy("StrongerGoblin"));
-            return new Grotte(name, 400, enemiesMedium);
+            return new Grotte(name, 500, enemiesMedium);
         }
         else if (name == "Hard")
         {
@@ -31,7 +31,7 @@
             enemiesHard.push_back(enemyFactory.createEnemy("MightyGoblin"));
             enemiesHard.push_back(enemyFactory.createEnemy("KingApe"));
             enemiesHard.push_back(enemyFactory.createEnemy("StrongerGoblin"));
-            return new Grotte(name, 300, enemiesHard);
+            return new Grotte(name, 2000, enemiesHard);
         }
 
         else if (name == "Very Hard")
@@ -42,7 +42,7 @@
             enemiesVeryHard.push_back(enemyFactory.createEnemy("StrongerGoblin"));
             enemiesVeryHard.push_back(enemyFactory.createEnemy("Unicorn"));
             enemiesVeryHard.push_back(enemyFactory.createEnemy("KingApe"));
-            return new Grotte(name, 1000, enemiesVeryHard);
+            return new Grotte(name, 5000, enemiesVeryHard);
 
         }
 
@@ -50,12 +50,12 @@
         {
             vector<Enemy*> enemiesExtreme;
             enemiesExtreme.push_back(enemyFactory.createEnemy("Dragon"));
-            return new Grotte(name, 2000, enemiesExtreme);
+            return new Grotte(name, 10000, enemiesExtreme);
         }
 
         else
         {
-            cout << "Forkert level navn, prøv igen" << endl;
+            cout << "No cave found, try again" << endl;
             return new Grotte("Invalid name",0,{});
         }
 

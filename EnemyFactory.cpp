@@ -49,14 +49,14 @@ Enemy* EnemyFactory::createEnemy(string name) // Pointer bruges for polymorphism
     } 
     else if (name == "Unicorn") 
     {
-        int hp = 25 + randomPlusMinus(10);
+        int hp = 50 + randomPlusMinus(10);
         int power = 8 + randomPlusMinus(3);
         int xp = 1500 + randomPlusMinus(500);
         return new Enemy("Unicorn", hp, power, xp);
     } 
     else if (name == "Dragon") 
     {       
-        int hp = 100 + randomPlusMinus(10);
+        int hp = 200 + randomPlusMinus(10);
         int power = 10 + randomPlusMinus(5);
         int xp = 3000 + randomPlusMinus(1000);
         return new Enemy("Dragon", hp, power, xp);
@@ -71,15 +71,4 @@ int EnemyFactory::randomPlusMinus(int val)
     return (rand() % 2 == 0 ? -val : val);
 }
 
-void EnemyFactory::addEnemy(Enemy* enemy) 
-{
-    enemies.push_back(enemy);
-}
-
-EnemyFactory::~EnemyFactory() 
-{
-    // Slet alle fjender i listen, så du undgår memory leaks
-    for (Enemy* enemy : enemies) {
-        delete enemy;
-    }
-}
+EnemyFactory::~EnemyFactory() {}

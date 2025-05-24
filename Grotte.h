@@ -9,6 +9,11 @@ using namespace std;
 
 class Grotte
 {
+    protected:
+        string name;
+        int gold;
+        vector<Enemy*> enemies; 
+
     public:
         Grotte(string, int, vector<Enemy*>);
         string getName();
@@ -18,10 +23,6 @@ class Grotte
         bool isEmpty() const;
 
         ~Grotte();
-    protected:
-        string name;
-        int gold;
-        vector<Enemy*> enemies; 
 };
 
 #endif
