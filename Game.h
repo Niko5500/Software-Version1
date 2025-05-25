@@ -27,14 +27,17 @@ class Game {
 
     public:
 	Game();
+	static bool isNumber(const std::string& s);
 	Hero& getHero();
 	void setHp(Hero& h);
     void newHero(); 
     void loadHero(sqlite3* db, int heroId); 
     void saveHero(sqlite3* db, Hero& hero);
+	void deleteHero(sqlite3* db, int heroId);
 	void listHeroes(sqlite3* db);
     void displayHero();
-	void choseHero(int n, sqlite3* db);
+	void choseHero(int input, sqlite3* db);
+	bool heroExists(sqlite3* db, int heroId);
 	void updateHero_Kills(sqlite3* db, int heroId, int enemyId, int weaponId);
 	void analyse(sqlite3* db);
 	Grotte* chooseGrotte();
