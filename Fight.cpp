@@ -97,7 +97,7 @@ bool Fight::runFight()
     while (getHero().getHp() > 0 && getEnemy().getHp() > 0)
     {
         cout << "--------------------------" << endl;
-        cout << "| Tryk enter for at fighte |" << endl;
+        cout << "| Type enter to fighte |" << endl;
         cout << "--------------------------";
         cin.get();
 

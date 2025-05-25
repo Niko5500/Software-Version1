@@ -4,6 +4,7 @@
 #include "Weapon.h"
 #include "Hero.h"
 #include "WeaponFactory.h"
+#include "Game.h"
 #include <vector>
 #include <iostream>
 

@@ -53,10 +53,17 @@ string Armory::chooseWeapon(int index)
 
 void Armory::buyWeapon()
 {   
-    int input; 
-    cout << "Buy a weapon by index: ";
-    cin >> input;
-
+    string input1; 
+    while(true)
+    {
+        cout << "Buy a weapon by index: ";
+        getline(cin, input1);
+        if (Game::isNumber(input1))
+        {
+            break;
+        }
+    }
+    int input = stoi(input1);
     string newWeapon = chooseWeapon(input);
 
     if (newWeapon == "")

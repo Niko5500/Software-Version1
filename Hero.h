@@ -8,6 +8,7 @@ using namespace std;
 
 class Hero {
 	protected:
+		int id;
 		string name;
 		int hp;
 		int maxHp;
@@ -20,8 +21,9 @@ class Hero {
 
 	public:
 		Hero();
-		Hero(string, int, int, int, int, int);
+		Hero(int, string, int, int, int, int, int);
 		
+		int getId();
 		string getName();
 
 		int getXp();
@@ -47,6 +49,7 @@ class Hero {
 		void removeWeapon(Weapon* weapon);
 		void displayInventory();
 		void printWeapon();
+		int getWeaponId();
 		void equipWeapon(int index);
 		void unequipWeapon();
 		void destroyWeapon();
