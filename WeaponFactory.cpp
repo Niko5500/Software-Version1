@@ -6,7 +6,7 @@ Weapon* WeaponFactory::createWeapon(string name)
 {
     if (name == "Sword")
     {
-        return new Weapon("Sword", 1, 5, 500);
+        return new Weapon("Sword", 1, 20, 500);
     }
     else if (name == "Axe")
     {

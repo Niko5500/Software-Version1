@@ -2,8 +2,9 @@
 
 Hero::Hero(){}
 
-Hero::Hero(string n, int h, int p, int l, int x, int g)
+Hero::Hero(int i, string n, int h, int p, int l, int x, int g)
 {
+id = i;
 name = n;
 hp = h;
 maxHp = h;
@@ -12,6 +13,11 @@ level = l;
 xp = x;
 gold = g;
 inventory = {};
+}
+
+int Hero::getId()
+{
+	return id;
 }
 
 string Hero::getName()
@@ -150,6 +156,14 @@ void Hero::printWeapon()
 	if (equippedWeapon != nullptr)
 	{
 		cout << "Weapon: "; equippedWeapon->print();
+	}
+}
+
+int Hero::getWeaponId()
+{
+	if (equippedWeapon != nullptr)
+	{
+		return equippedWeapon->getId();
 	}
 }
 

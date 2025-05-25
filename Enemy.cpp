@@ -2,12 +2,18 @@
 
 Enemy::Enemy(){}
 
-Enemy::Enemy(string n, int h, int p, int x)
+Enemy::Enemy(int i, string n, int h, int p, int x)
 {
+id = i;
 name = n;
 hp = h;
 power = p;
 xp = x;
+}
+
+int Enemy::getId()
+{
+        return id;
 }
 
 string Enemy::getName()

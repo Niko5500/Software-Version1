@@ -5,13 +5,15 @@ using namespace std;
 
 class Enemy {
         protected:
+                int id;
                 string name;
                 int hp;
                 int power;
                 int xp; 
         public:
                 Enemy();
-                Enemy(string, int, int, int);
+                Enemy(int, string, int, int, int);
+                int getId();
                 string getName();
                 int getHp();
 	        void setHp(int newHp);
