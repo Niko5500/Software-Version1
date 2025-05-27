@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/main.cpp.dir/Enemy.cpp.o CMakeFiles/main.cpp.dir/Fight.cpp.o CMakeFiles/main.cpp.dir/Game.cpp.o CMakeFiles/main.cpp.dir/Hero.cpp.o CMakeFiles/main.cpp.dir/main.cpp.o -o main.cpp 
