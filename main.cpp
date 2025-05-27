@@ -8,7 +8,7 @@
 int main()
 {
     sqlite3* db;
-    int rc = sqlite3_open("../myDataBase.db", &db);  // åbner (eller opretter) databasefilen "game.db"
+    int rc = sqlite3_open("myDataBase.db", &db);  // åbner (eller opretter) databasefilen "game.db"
 
     if (rc) {
         std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;

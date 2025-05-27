@@ -14,7 +14,7 @@ class Fight {
 		   Grotte& grotte;
 
 	public:
-	        Fight(Hero& h, Enemy& e, Grotte& g);
+	    Fight(Hero& h, Enemy& e, Grotte& g);
 
 		Hero& updateHeroFight();
  		Hero& getHero();

@@ -1,3 +1,0 @@
-/home/nikolai/Documents/Software/Eksamen/Game/build/CMakeFiles/main.cpp.dir
-/home/nikolai/Documents/Software/Eksamen/Game/build/CMakeFiles/edit_cache.dir
-/home/nikolai/Documents/Software/Eksamen/Game/build/CMakeFiles/rebuild_cache.dir
